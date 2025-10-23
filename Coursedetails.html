@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Detail | JavaScript Masterclass - LearnHub</title>
+    <style>
+        /* --- Design Variables (Adopted from Dashboard) --- */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --secondary-color: #6c757d; /* Grey */
+            --background-color: #f8f9fa; /* Light grey */
+            --card-background: #ffffff; /* White for cards */
+            --text-color: #343a40; /* Dark grey for main text */
+            --success-color: #28a745; /* Green */
+        }
+
+        /* --- Base & Header Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-background);
+            border-bottom: 1px solid #e9ecef;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Main Layout: Two Columns --- */
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .course-content {
+            flex: 3; /* Main content takes 75% width */
+        }
+
+        .sidebar {
+            flex: 1; /* Sidebar takes 25% width */
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* --- Course Overview & Video Section --- */
+        .course-overview {
+            padding: 0; /* Remove padding here, add to section children */
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--text-color);
+            margin: 10px 0 20px 0;
+            padding-left: 10px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .course-media {
+            width: 100%;
+            height: 400px;
+            background-color: #212529; /* Dark background for video */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Using iframe for video/placeholder */
+        .course-media iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- Metadata & Instructor --- */
+        .course-meta {
+            display: flex;
+            gap: 30px;
+            margin: 15px 0 25px;
+            font-size: 1em;
+            color: var(--secondary-color);
+            padding: 0 10px;
+        }
+
+        .course-meta strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .instructor-info {
+            display: flex;
+            align-items: center;
+            padding: 20px 10px;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .instructor-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .instructor-info h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        .instructor-info p {
+            margin: 0;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+
+        /* --- Content Sections (Syllabus, Reviews, Requirements) --- */
+        section {
+            background-color: var(--card-background);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.6em;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        /* Syllabus */
+        .syllabus-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .syllabus-list > li {
+            background-color: #f1f7ff; /* Lighter shade of primary */
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: var(--text-color);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .module-title {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .subtopics {
+            list-style: disc;
+            padding: 0 0 0 25px;
+            font-weight: 400;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+        
+        .subtopics li {
+            margin-bottom: 5px;
+        }
+
+        /* Reviews */
+        .review {
+            background-color: var(--background-color);
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border-left: 3px solid var(--success-color);
+        }
+
+        .review h4 {
+            margin: 0 0 5px 0;
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+
+        .review p {
+            margin: 0;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+
+        /* --- Sidebar Enroll Box --- */
+        .enroll-box h4 {
+            font-size: 1.8em;
+            color: var(--text-color);
+            margin: 10px 0 5px 0;
+        }
+        
+        .enroll-box p {
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+
+        .enroll-button {
+            display: block;
+            width: 100%;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .enroll-button:hover {
+            background-color: #1e7e34;
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 992px) {
+            main {
+                flex-direction: column; /* Stack columns on smaller screens */
+            }
+
+            .sidebar {
+                position: static; /* Remove sticky on mobile */
+                order: -1; /* Place sidebar (enroll button) first on mobile */
+                margin-bottom: 20px;
+            }
+
+            .course-media {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="home-dashboard.html" class="logo">LearnHub</a>
+            <nav>
+                <a href="home-dashboard.html">Home</a>
+                <a href="profile.html">Profile</a>
+                <a href="logout.html">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="course-content">
+            <div class="course-overview">
+                <h1 id="course-title">JavaScript for Beginners</h1>
+                <p id="course-description" style="padding: 0 10px;">Learn the fundamentals of JavaScript and get hands-on experience by building real-world projects.</p>
+                
+                <div class="course-media">
+                    <iframe 
+                        src="https://www.youtube.com/embed/videoseries?list=PL4-EeP2KjVlA9_sJ5q5h5zS-L-K3K6yXb" 
+                        title="Course Video Placeholder" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <div class="course-meta">
+                    <span>Duration: <strong id="course-duration">6 hours</strong></span>
+                    <span>Level: <strong id="course-level">Beginner</strong></span>
+                    <span>Rating: <strong id="course-rating">⭐️ 4.7 / 5.0</strong></span>
+                </div>
+
+                <div class="instructor-info">
+                    <img id="instructor-img" src="https://picsum.photos/seed/john-doe-instructor/80/80" alt="Instructor" class="instructor-img">
+                    <div>
+                        <h3 id="instructor-name">John Doe</h3>
+                        <p id="instructor-bio">John is a web developer with 10+ years of experience in JavaScript development.</p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="syllabus">
+                <h2>📚 Course Syllabus</h2>
+                <ul id="syllabus-list" class="syllabus-list">
+                    </ul>
+            </section>
+            
+            <section class="presentation">
+                <h2>✅ Requirements & Materials</h2>
+                <p id="required-materials">No prior knowledge of programming is required. Just a computer with internet access and a passion for coding.</p>
+            </section>
+
+            <section class="reviews">
+                <h2>⭐ Reviews & Ratings</h2>
+                <div id="reviews-section">
+                    </div>
+            </section>
+        </div>
+
+        <aside class="sidebar">
+            <div class="enroll-box">
+                <h4>Course Price: $49.99</h4>
+                <p>Lifetime access to all lectures, projects, and future updates.</p>
+                <a href="payment&subscription.html" class="enroll-button">Enroll Now</a>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        // Sample Data (This would typically come from an API based on the course ID)
+        const courseData = {
+            title: "Modern JavaScript from Zero to Hero",
+            description: "Master modern JavaScript (ES6+) by diving deep into core concepts and building real-world projects. Perfect for beginners and those looking to refresh their skills.",
+            rating: "4.7 / 5.0 (2,540 ratings)",
+            instructor: {
+                name: "John Doe",
+                bio: "Lead Software Engineer at TechCorp. John has 10+ years of experience and is a top-rated instructor on LearnHub.",
+                imageSeed: "john-doe-instructor" // For dynamic placeholder image
+            },
+            duration: "6 hours of video",
+            level: "Beginner",
+            price: "$49.99",
+            syllabus: [
+                { topic: "Module 1: Introduction to JavaScript", subtopics: ["What is JavaScript?", "Setting up your environment", "Running your first code"] },
+                { topic: "Module 2: Variables and Data Types", subtopics: ["Working with Strings", "Numbers and Math Operations", "Booleans and Logical Operators"] },
+                { topic: "Module 3: Control Flow and Functions", subtopics: ["If/Else Statements", "Switch Statements", "Defining Functions", "Arrow Functions"] },
+                { topic: "Module 4: Arrays and Objects", subtopics: ["Basic Array Methods", "Iteration", "Understanding JSON", "Object Properties"] }
+            ],
+            reviews: [
+                { user: "Alice M.", rating: 5, comment: "This course is fantastic! The instructor is clear and the pace is perfect for beginners. Highly recommend!" },
+                { user: "Bob T.", rating: 4, comment: "Great content, especially the array section. Wish there were more advanced projects at the end." },
+                { user: "Charlie S.", rating: 5, comment: "The best JavaScript course I've taken. The modern ES6 approach is exactly what I needed." }
+            ],
+            requiredMaterials: "No prior programming knowledge is required. You'll need a computer (Windows, Mac, or Linux) and a text editor like VS Code."
+        };
+
+        // Function to render the Syllabus with modules and subtopics
+        function renderSyllabus(syllabus, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            syllabus.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span class="module-title">${item.topic} (${item.subtopics.length} lectures)</span>
+                    <ul class="subtopics">
+                        ${item.subtopics.map(sub => `<li>${sub}</li>`).join('')}
+                    </ul>
+                `;
+                container.appendChild(listItem);
+            });
+        }
+
+        // Function to render Reviews
+        function renderReviews(reviews, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            reviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review');
+                
+                // Display stars based on rating
+                const fullStars = '⭐'.repeat(review.rating);
+                
+                reviewItem.innerHTML = `
+                    <h4>${review.user} - ${fullStars}</h4>
+                    <p>${review.comment}</p>
+                `;
+                container.appendChild(reviewItem);
+            });
+        }
+        
+        // Initial Rendering of Content
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate Course Overview
+            document.getElementById('course-title').innerText = courseData.title;
+            document.getElementById('course-description').innerText = courseData.description;
+            document.getElementById('course-duration').innerText = courseData.duration;
+            document.getElementById('course-level').innerText = courseData.level;
+            document.getElementById('course-rating').innerText = courseData.rating;
+            document.getElementById('required-materials').innerText = courseData.requiredMaterials;
+
+            // Instructor
+            document.getElementById('instructor-name').innerText = courseData.instructor.name;
+            document.getElementById('instructor-bio').innerText = courseData.instructor.bio;
+            // Using Lorem Picsum for dynamic instructor image
+            document.getElementById('instructor-img').src = `https://picsum.photos/seed/${courseData.instructor.imageSeed}/80/80`;
+
+            // Sidebar Price
+            document.querySelector('.enroll-box h4').innerText = `Course Price: ${courseData.price}`;
+            
+            // Dynamic Sections
+            renderSyllabus(courseData.syllabus, 'syllabus-list');
+            renderReviews(courseData.reviews, 'reviews-section');
+        });
+    </script>
+</body>
+</html>

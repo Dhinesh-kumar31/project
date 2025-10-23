@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Progress Dashboard</title>
+    <link rel="stylesheet" href="learning-dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Learning Dashboard</h1>
+
+        <!-- Learning Progress -->
+        <section id="progress">
+            <h2>Course Progress</h2>
+            <div id="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+            <p id="progress-percentage">0%</p>
+        </section>
+
+        <!-- Certificates -->
+        <section id="certificates">
+            <h2>Earned Certificates</h2>
+            <div id="certificates-list">
+                <div class="certificate">
+                    <p>Certificate 1</p>
+                    <button class="download-btn">Download</button>
+                </div>
+                <div class="certificate">
+                    <p>Certificate 2</p>
+                    <button class="download-btn">Download</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Time Tracker -->
+        <section id="time-tracker">
+            <h2>Time Tracker</h2>
+            <p>Total Time Spent: <span id="time-spent">0</span> hours</p>
+            <button id="add-time-btn">Add Time</button>
+        </section>
+
+        <!-- Goals & Milestones -->
+        <section id="goals">
+            <h2>Goals & Milestones</h2>
+            <div id="goal-list">
+                <input type="text" id="goal-input" placeholder="Enter a new goal">
+                <button id="add-goal-btn">Add Goal</button>
+            </div>
+            <ul id="goal-items">
+                <!-- List of goals will appear here -->
+            </ul>
+        </section>
+
+    </div>
+
+    <script src="learning-dashboard.js"></script>
+</body>
+</html>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    margin-top: 20px;
+    color: #555;
+}
+
+#progress-bar-container {
+    width: 100%;
+    height: 30px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #4caf50;
+    border-radius: 5px;
+}
+
+#progress-percentage {
+    text-align: center;
+    font-size: 18px;
+}
+
+#certificates-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.certificate {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 200px;
+}
+
+.download-btn {
+    margin-top: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#time-tracker {
+    margin-top: 20px;
+}
+
+#add-time-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#goals {
+    margin-top: 20px;
+}
+
+#goal-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#add-goal-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#goal-items {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#goal-items li {
+    background-color: #f9f9f9;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+</style>
+<script>
+    // JavaScript for Learning Progress, Time Tracker, and Goals
+
+// Learning Progress
+let progress = 0; // Initial progress percentage
+const progressBar = document.getElementById('progress-bar');
+const progressPercentage = document.getElementById('progress-percentage');
+
+// Function to update progress bar
+function updateProgressBar() {
+    progressBar.style.width = progress + '%';
+    progressPercentage.innerText = progress + '%';
+}
+
+// Example: Increase progress by 10% every 2 seconds (can be replaced with actual data)
+setInterval(() => {
+    if (progress < 100) {
+        progress += 10;
+        updateProgressBar();
+    }
+}, 2000);
+
+// Time Tracker
+let totalTime = 0;
+const timeSpent = document.getElementById('time-spent');
+const addTimeBtn = document.getElementById('add-time-btn');
+
+// Function to add time to the tracker
+addTimeBtn.addEventListener('click', () => {
+    totalTime += 1;
+    timeSpent.innerText = totalTime;
+});
+
+// Goals & Milestones
+const goalInput = document.getElementById('goal-input');
+const addGoalBtn = document.getElementById('add-goal-btn');
+const goalList = document.getElementById('goal-items');
+
+// Function to add a new goal
+addGoalBtn.addEventListener('click', () => {
+    const goalText = goalInput.value;
+    if (goalText !== '') {
+        const li = document.createElement('li');
+        li.textContent = goalText;
+        goalList.appendChild(li);
+        goalInput.value = ''; // Clear input
+    }
+});
+
+// Certificates - Download Buttons
+const downloadButtons = document.querySelectorAll('.download-btn');
+
+downloadButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        alert('Download started');
+        // Here you can implement a real file download logic
+    });
+});
+</script>

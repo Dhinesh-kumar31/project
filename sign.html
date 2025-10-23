@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Create Your LearnHub Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* --- Global Reset and Typography --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Define a consistent color palette */
+            --primary-color: #007bff; /* A clean, professional blue */
+            --primary-dark: #0056b3;
+            --text-color: #333;
+            --secondary-text: #666;
+            --bg-color: #f0f4f8; /* Light blue-gray background */
+            --card-bg: #ffffff;
+            --border-color: #e0e6ed;
+            --danger-color: #dc3545; /* Red for validation errors */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- Layout Wrapper (Two-Column) --- */
+        .login-page-wrapper {
+            display: flex;
+            max-width: 900px;
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden; 
+            background-color: var(--card-bg);
+        }
+
+        /* --- 1. Marketing Section (Visual/Image) --- */
+        .marketing-section {
+            flex: 1; 
+            background: linear-gradient(135deg, var(--primary-color), #5dade2); /* Blue gradient */
+            padding: 3rem 2rem;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .illustration-box {
+            width: 100%;
+            max-width: 250px;
+            margin-bottom: 2rem;
+        }
+
+        .illustration-img {
+            width: 100%;
+            height: auto;
+            /* Added styles to make the image look like an illustration */
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        }
+
+        .marketing-tagline {
+            font-size: 1.1rem;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+
+
+        /* --- 2. Form Section --- */
+        .form-section {
+            flex: 1;
+            padding: 3rem 2.5rem;
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        /* --- Form Elements Styling --- */
+        .input-group {
+            margin-bottom: 1rem; /* Slightly reduced margin for more fields */
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--secondary-text);
+        }
+
+        .signup-form input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .signup-form input.invalid {
+            border-color: var(--danger-color);
+        }
+
+        .signup-form input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+        
+        .validation-message {
+            color: var(--danger-color);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            min-height: 15px; /* Prevent layout shift */
+        }
+
+        /* --- Primary Button --- */
+        .btn {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--card-bg);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background-color: var(--secondary-text);
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* --- Divider (OR) --- */
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: var(--secondary-text);
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+
+        .divider span {
+            background-color: var(--card-bg);
+            padding: 0 10px;
+            font-size: 0.9rem;
+        }
+
+        /* --- Social Buttons --- */
+        .social-login-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem; /* Slightly reduced margin */
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-weight: 400;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--secondary-text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .social-btn i {
+            margin-right: 0.7rem;
+            font-size: 1.1rem;
+        }
+
+        .google-btn:hover { border-color: #db4437; color: #db4437; }
+        .facebook-btn:hover { border-color: #4267B2; color: #4267B2; }
+
+        /* --- Login Link --- */
+        .login-link {
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Responsiveness for Mobile --- */
+        @media (max-width: 768px) {
+            .login-page-wrapper {
+                flex-direction: column;
+                box-shadow: none; 
+                max-width: 100%;
+                border-radius: 0;
+            }
+            
+            .marketing-section {
+                padding: 2rem 1rem;
+            }
+            
+            .illustration-box {
+                max-width: 150px;
+            }
+
+            .form-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-page-wrapper">
+        <div class="marketing-section">
+            <h1 class="logo">LearnHub</h1>
+            <div class="illustration-box">
+                <img src="logo.jpg" alt="A person learning on the platform" class="illustration-img">
+            </div>
+            <p class="marketing-tagline">Start your learning journey today! Access hundreds of courses instantly.</p>
+        </div>
+
+        <div class="form-section">
+            <h2 class="form-title">Create Your LearnHub Account</h2>
+            <form id="signup-form" class="signup-form">
+                
+                <div class="input-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    <p class="validation-message" id="name-msg"></p>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="you@example.com" required autocomplete="email">
+                    <p class="validation-message" id="email-msg">Please enter a valid email address.</p>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Min. 8 characters" required>
+                    <p class="validation-message" id="password-msg">Password must be at least 8 characters.</p>
+                </div>
+                
+                <div class="input-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter password" required>
+                    <p class="validation-message" id="confirm-msg">Passwords do not match.</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submit-btn" disabled>
+                    Sign Up
+                </button>
+            </form>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <div class="social-login-buttons">
+                <button class="social-btn google-btn">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+                <button class="social-btn facebook-btn">
+                    <i class="fab fa-facebook-f"></i> Sign up with Facebook
+                </button>
+            </div>
+
+            <p class="login-link">
+                Already have an account? <a href="login.html">Log In Here</a>
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        const form = document.getElementById('signup-form');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const submitButton = document.getElementById('submit-btn');
+
+        const nameMsg = document.getElementById('name-msg');
+        const emailMsg = document.getElementById('email-msg');
+        const passwordMsg = document.getElementById('password-msg');
+        const confirmMsg = document.getElementById('confirm-msg');
+
+        // --- Validation State ---
+        let isValid = {
+            name: false,
+            email: false,
+            password: false,
+            confirm: false
+        };
+        
+        // --- Core Validation Logic ---
+
+        function validateName() {
+            isValid.name = nameInput.value.trim().length > 2;
+            nameInput.classList.toggle('invalid', !isValid.name && nameInput.value !== '');
+            nameMsg.textContent = !isValid.name && nameInput.value !== '' ? 'Please enter your full name.' : '';
+            checkFormValidity();
+        }
+
+        function validateEmail() {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+            isValid.email = emailPattern.test(emailInput.value);
+
+            emailInput.classList.toggle('invalid', !isValid.email && emailInput.value !== '');
+            emailMsg.textContent = !isValid.email && emailInput.value !== '' ? 'Please enter a valid email address.' : '';
+            checkFormValidity();
+        }
+
+        function validatePassword() {
+            isValid.password = passwordInput.value.length >= 8;
+
+            passwordInput.classList.toggle('invalid', !isValid.password && passwordInput.value !== '');
+            passwordMsg.textContent = !isValid.password && passwordInput.value !== '' ? 'Password must be at least 8 characters.' : '';
+
+            // Re-check confirm password if password changes
+            if (confirmPasswordInput.value !== '') {
+                 validateConfirmPassword();
+            }
+            checkFormValidity();
+        }
+
+        function validateConfirmPassword() {
+            isValid.confirm = (passwordInput.value === confirmPasswordInput.value) && (confirmPasswordInput.value.length >= 8);
+
+            confirmPasswordInput.classList.toggle('invalid', !isValid.confirm && confirmPasswordInput.value !== '');
+            confirmMsg.textContent = !isValid.confirm && confirmPasswordInput.value !== '' ? 'Passwords must match and be 8+ characters.' : '';
+            
+            checkFormValidity();
+        }
+
+        function checkFormValidity() {
+            const isFormValid = isValid.name && isValid.email && isValid.password && isValid.confirm;
+            submitButton.disabled = !isFormValid;
+        }
+
+        // --- Event Listeners for Real-Time Feedback ---
+        nameInput.addEventListener('input', validateName);
+        emailInput.addEventListener('input', validateEmail);
+        passwordInput.addEventListener('input', validatePassword);
+        confirmPasswordInput.addEventListener('input', validateConfirmPassword);
+        
+        // Initial check for button state (though inputs start empty)
+        checkFormValidity();
+
+
+        // --- Submission Handler ---
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); 
+            
+            // Run all validations one last time
+            validateName();
+            validateEmail();
+            validatePassword();
+            validateConfirmPassword();
+            
+            if (submitButton.disabled) {
+                alert("Please correct the errors before submitting.");
+                return;
+            }
+
+            // --- SUCCESS SIMULATION ---
+            submitButton.disabled = true;
+            submitButton.textContent = 'Creating Account...';
+            
+            console.log('User signed up:', { 
+                name: nameInput.value, 
+                email: emailInput.value 
+            });
+
+            // Simulate successful account creation and redirect
+            setTimeout(() => {
+                alert('Welcome to LearnHub, ' + nameInput.value.split(' ')[0] + '! You are now logged in.');
+                window.location.href = 'Homedashboard.html'; 
+            }, 1500); 
+        });
+    </script>
+</body>
+</html>

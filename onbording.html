@@ -1,0 +1,101 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onboarding - LearnHub</title>
+  <link rel="stylesheet" href="onboarding.css">
+</head>
+<body>
+  <center>
+  <div class="onboarding-container">
+    <div class="slide" id="slide1">
+      <h2>Welcome to LearnHub</h2>
+      <p>Learn new skills at your own pace.</p>
+      <button class="next-button" onclick="nextSlide(2)">Next</button>
+    </div>
+
+    <div class="slide" id="slide2">
+      <h2>Interactive Courses</h2>
+      <p>Engage with interactive lessons and quizzes.</p>
+      <button class="next-button" onclick="nextSlide(3)">Next</button>
+    </div>
+
+    <div class="slide" id="slide3">
+      <h2>Track Your Progress</h2>
+      <p>Monitor your learning progress and achievements.</p>
+      <button class="next-button" onclick="nextSlide(4)">Next</button>
+    </div>
+
+    <div class="slide" id="slide4">
+      <h2>Become an Instructor</h2>
+      <p>Create and share your own courses with the world.</p>
+      <button class="finish-button" onclick="finishOnboarding()">Finish</button>
+    </div>
+  </div>
+
+  <script src="onboarding.js"></script>
+  </center>
+</body>
+</html>
+<style>
+  onboarding-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: white;
+    padding: 50px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  slide {
+    display: none;
+  }
+  
+  slide.active {
+    display: block;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    margin: 20px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  finish-button {
+    background-color: #2196F3;
+  }
+</style>
+<script>
+  let currentSlide = 1;
+
+function showSlide(slideNumber) {
+  const slides = document.querySelectorAll('.slide');
+  slides.forEach(slide => {
+    slide.classList.remove('active');
+  });
+
+}
+
+function nextSlide(slideNumber) {
+  currentSlide = slideNumber;
+  showSlide(currentSlide);
+}
+
+function finishOnboarding() {
+  window.location.href = 'user-selection.html';  // Redirect to user selection page after onboarding
+}
+
+// Start with the first slide
+showSlide(currentSlide);
+</script>

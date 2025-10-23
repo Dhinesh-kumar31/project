@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Secure Payment - LearnHub</title>
+    <style>
+        /* --- Design Variables (Adopted from Dashboard) --- */
+        :root {
+            --primary-color: #007bff; /* LearnHub Blue */
+            --secondary-color: #6c757d; /* Grey */
+            --background-color: #f4f7fa; /* Very Light Blue-Grey */
+            --card-background: #ffffff; /* White for cards */
+            --text-color: #343a40; /* Dark grey */
+            --success-color: #28a745; /* Green for payment/success */
+            --warning-color: #ffc107; /* Yellow for savings */
+            --border-color: #e9ecef;
+        }
+
+        /* --- Base Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: var(--card-background);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: var(--text-color);
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* --- Subscription Plans Section --- */
+        #subscription-plans {
+            text-align: center;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .plan {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .plan:hover, .plan.selected {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 123, 255, 0.15);
+        }
+
+        .plan h3 {
+            font-size: 1.4em;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .plan-price {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 10px 0;
+        }
+
+        .plan-price small {
+            font-size: 0.6em;
+            color: var(--secondary-color);
+            font-weight: 400;
+            display: block;
+        }
+
+        .badge {
+            background-color: var(--warning-color);
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .select-button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .select-button:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Selected Button Style */
+        .plan.selected .select-button {
+            background-color: var(--success-color);
+        }
+
+        /* --- Billing Form Section --- */
+        #billing-details {
+            max-width: 500px;
+            margin: 0 auto 40px;
+            padding: 20px;
+            border: 1px dashed var(--primary-color);
+            border-radius: 8px;
+        }
+
+        #billing-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        #billing-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            grid-column: span 2; /* Labels span full width */
+        }
+
+        #billing-form input:not(#expiry-date, #cvv) {
+            grid-column: span 2; /* Full width inputs */
+        }
+        
+        #billing-form label[for="expiry-date"], #billing-form label[for="cvv"] {
+             grid-column: span 1;
+        }
+
+        #billing-form input {
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        /* Submit Payment Button */
+        .submit-payment-btn {
+            grid-column: span 2;
+            padding: 15px;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 20px;
+        }
+
+        .submit-payment-btn:hover {
+            background-color: #1e7e34;
+        }
+        
+        /* --- Offers & Invoice Section (Smaller) --- */
+        #offers-discounts {
+            padding: 20px;
+            background-color: var(--background-color);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        #offers-discounts input {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            width: 60%;
+            margin-right: 10px;
+        }
+
+        #offers-discounts button {
+            background-color: var(--secondary-color);
+            padding: 10px 15px;
+            width: 30%;
+        }
+
+        #offers-discounts button:hover {
+            background-color: #5a6268;
+        }
+
+        #discount-message {
+            color: var(--success-color);
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        #invoice-download {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        #invoice-download button {
+            background-color: var(--primary-color);
+            padding: 12px 30px;
+            font-size: 1em;
+            border-radius: 25px;
+        }
+
+        #invoice-download button:hover {
+            background-color: #0056b3;
+        }
+        
+        /* --- Responsiveness --- */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+            #billing-form {
+                grid-template-columns: 1fr;
+            }
+             #billing-form label {
+                grid-column: span 1;
+            }
+            #billing-form input:not(#expiry-date, #cvv), .submit-payment-btn {
+                grid-column: span 1;
+            }
+            #offers-discounts input, #offers-discounts button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💳 Secure Checkout</h1>
+
+        <section id="subscription-plans">
+            <h2>Choose Your Plan</h2>
+            <div class="plans-grid">
+                
+                <div class="plan" id="monthly-plan">
+                    <span class="badge">Flexible</span>
+                    <h3>Monthly Plan</h3>
+                    <p class="plan-price">$19.99<small>/month</small></p>
+                    <p>Access all courses, cancel anytime.</p>
+                    <button class="select-button" onclick="selectPlan('monthly')">Select Plan</button>
+                </div>
+                
+                <div class="plan selected" id="yearly-plan">
+                    <span class="badge">BEST VALUE (Save 17%)</span>
+                    <h3>Yearly Plan</h3>
+                    <p class="plan-price">$199.99<small>/year</small></p>
+                    <p>Full year of learning for less.</p>
+                    <button class="select-button" onclick="selectPlan('yearly')">Selected</button>
+                </div>
+                
+                <div class="plan" id="early-bird-plan">
+                    <span class="badge" style="background-color: var(--success-color); color: white;">LIMITED TIME</span>
+                    <h3>Early Bird Plan</h3>
+                    <p class="plan-price">$149.99<small>/year</small></p>
+                    <p>Special promotional yearly price.</p>
+                    <button class="select-button" onclick="selectPlan('early')">Select Plan</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="billing-details">
+            <h2>Payment Information</h2>
+            <form id="billing-form">
+                
+                <label for="card-name">Name on Card</label>
+                <input type="text" id="card-name" placeholder="John A. Doe" required>
+
+                <label for="card-number">Card Number</label>
+                <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" required>
+
+                <label for="expiry-date">Expiry Date</label>
+                <input type="month" id="expiry-date" required>
+
+                <label for="cvv">CVV</label>
+                <input type="text" id="cvv" placeholder="123" required>
+                
+                <a href="learningmodule.html" class="submit-payment-btn" id="submit-button">Submit Payment</a>
+
+            </form>
+        </section>
+        
+        <section id="offers-discounts">
+            <h2>🏷️ Apply Coupon</h2>
+            <div>
+                <input type="text" id="promo-code" placeholder="Enter Promo Code">
+                <button onclick="applyPromoCode()">Apply Code</button>
+            </div>
+            <span id="discount-message"></span>
+        </section>
+
+        <section id="invoice-download" style="display: none;">
+            <h2>Receipt & Invoice</h2>
+            <p>Thank you for your purchase! You can download your invoice below.</p>
+            <button onclick="downloadInvoice()">Download Invoice (PDF)</button>
+        </section>
+    </div>
+
+    <script>
+        let selectedPlanId = 'yearly-plan'; // Default selection
+
+        function updatePlanSelection(newPlanId) {
+            // Remove 'selected' class from all plans
+            document.querySelectorAll('.plan').forEach(plan => {
+                plan.classList.remove('selected');
+                plan.querySelector('.select-button').textContent = 'Select Plan';
+            });
+
+            // Add 'selected' class to the new plan
+            const newPlan = document.getElementById(newPlanId);
+            newPlan.classList.add('selected');
+            newPlan.querySelector('.select-button').textContent = 'Selected';
+            selectedPlanId = newPlanId;
+        }
+
+        // Initial selection setup
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePlanSelection(selectedPlanId); // Highlight the default selected plan
+        });
+
+        // Subscription plan selection logic
+        function selectPlan(plan) {
+            const planMap = {
+                'monthly': 'monthly-plan',
+                'yearly': 'yearly-plan',
+                'early': 'early-bird-plan'
+            };
+            
+            const newPlanId = planMap[plan];
+            if (newPlanId) {
+                updatePlanSelection(newPlanId);
+                // Optionally show a confirmation message
+                alert(`You have selected the ${plan.charAt(0).toUpperCase() + plan.slice(1)} plan. Proceed to payment.`);
+            }
+        }
+        
+        // Apply promo code and discount
+        function applyPromoCode() {
+            const promoCode = document.getElementById('promo-code').value.toUpperCase().trim();
+            const discountMessage = document.getElementById('discount-message');
+        
+            if (promoCode === 'SAVE10') {
+                discountMessage.textContent = '🥳 Success! Promo code applied. You save 10%!';
+                discountMessage.style.color = 'var(--success-color)';
+            } else if (promoCode === 'LEARNHUBVIP') {
+                discountMessage.textContent = '⭐ VIP Discount applied! Enjoy a special rate.';
+                discountMessage.style.color = 'var(--success-color)';
+            } else {
+                discountMessage.textContent = '❌ Invalid promo code. Please try again.';
+                discountMessage.style.color = '#dc3545'; /* Red for error */
+            }
+        }
+        
+        // Handle invoice download (Dummy function)
+        function downloadInvoice() {
+            alert('Initiating invoice download...');
+        }
+    </script>
+</body>
+</html>

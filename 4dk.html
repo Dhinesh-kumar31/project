@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - LearnHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* --- Design Variables (LearnHub Theme) --- */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --primary-dark: #0056b3;
+            --secondary-color: #6c757d; /* Grey */
+            --background-color: #f0f4f8; /* Light blue-gray background */
+            --card-background: #ffffff; /* White for cards */
+            --text-color: #343a40; /* Dark grey for main text */
+            --border-color: #e9ecef;
+            --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        /* --- Global & Typography --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* --- Header / Navigation --- */
+        header {
+            background-color: var(--card-background);
+            box-shadow: var(--shadow-light);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Highlight the active profile link */
+        nav a[href="profile.html"] {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 3px;
+        }
+
+        /* --- Main Content Layout --- */
+        main {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profile-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Sidebar for info, wide area for history/settings */
+            gap: 30px;
+            background-color: transparent; /* Background on main, not here */
+        }
+        
+        section {
+            background-color: var(--card-background);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        /* --- 1. Personal Info Section --- */
+        .personal-info {
+            grid-column: 1 / 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .profile-pic {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--primary-color);
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: filter 0.3s;
+        }
+        
+        .profile-pic:hover img {
+            filter: brightness(0.7);
+        }
+
+        .profile-pic::after {
+            content: 'Edit';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        
+        .profile-pic:hover::after {
+            opacity: 1;
+        }
+
+        .user-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: var(--primary-dark);
+        }
+        
+        .user-info p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .user-info strong {
+            color: var(--secondary-color);
+            font-weight: 400;
+        }
+        
+        /* --- 2. Learning History --- */
+        .learning-history {
+            grid-column: 2 / 3;
+        }
+        
+        .courses {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .course {
+            width: 180px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .course:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .course p {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .course strong {
+            color: var(--primary-color);
+        }
+
+        /* --- 3. Achievements --- */
+        .achievements {
+            grid-column: 2 / 3;
+            /* Using flex for horizontal badge layout */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .badges-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+
+        .badge {
+            width: 100px;
+            text-align: center;
+        }
+        
+        .badge-image {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .badge p {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+        }
+
+        /* --- 4. Settings --- */
+        .settings {
+            grid-column: 1 / 2;
+        }
+        
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        
+        .settings-option:last-child {
+            border-bottom: none;
+            justify-content: center;
+            padding-top: 20px;
+        }
+
+        .settings-option label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        /* Toggle switch styling */
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 40px;
+            height: 20px;
+            background: #ddd;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        input[type="checkbox"]:checked {
+            background: var(--success-color, #28a745);
+        }
+
+        input[type="checkbox"]:checked::before {
+            transform: translateX(20px);
+        }
+        
+        /* Buttons */
+        #change-password-btn, #edit-profile-btn {
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 600;
+        }
+        
+        #change-password-btn:hover, #edit-profile-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* --- Media Queries (Responsiveness) --- */
+        @media (max-width: 768px) {
+            .profile-container {
+                grid-template-columns: 1fr; /* Single column layout for mobile */
+            }
+            
+            .personal-info, .learning-history, .achievements, .settings {
+                grid-column: 1 / 2;
+            }
+
+            .courses {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .course {
+                width: 100%;
+            }
+            
+            .badges-list {
+                justify-content: space-around;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">LearnHub</div>
+            <nav>
+                <a href="Homedashboard.html">Home</a>
+                <a href="profile.html">Profile</a>
+                <a href="Logout.html">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="profile-container">
+            
+            <div style="display: contents;">
+                <section class="personal-info">
+                    <h2>My Account</h2>
+                    <div class="profile-pic" onclick="document.getElementById('file-upload').click();">
+                        <img src="profile.jpg" alt="User Profile Picture" id="profile-picture">
+                        <input type="file" id="file-upload" style="display: none;" accept="image/*">
+                    </div>
+                    <div class="user-info">
+                        <h3 id="username">John Doe</h3>
+                        <p id="bio">A passionate learner of web development and programming.</p>
+                        <p><strong>Email:</strong> <span id="email">johndoe@example.com</span></p>
+                    </div>
+                    <button id="edit-profile-btn" style="margin-top: 20px;">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </section>
+
+                <section class="settings">
+                    <h2>Settings</h2>
+                    <div class="settings-option">
+                        <label for="notifications">Course Notifications</label>
+                        <input type="checkbox" id="notifications" checked>
+                    </div>
+                    <div class="settings-option">
+                        <label for="privacy">Private Profile (Hide Achievements)</label>
+                        <input type="checkbox" id="privacy">
+                    </div>
+                    <div class="settings-option">
+                        <button id="change-password-btn">Change Password</button>
+                    </div>
+                </section>
+            </div>
+            
+            <div style="display: contents;">
+                <section class="learning-history">
+                    <h2>Learning History</h2>
+                    <div class="courses">
+                        <div class="course">
+                            <img src="java.jpg" alt="Course 1" class="course-image">
+                            <p><strong>Completed:</strong> JavaScript for Beginners</p>
+                        </div>
+                        <div class="course">
+                            <img src="web.jpg" alt="Course 2" class="course-image">
+                            <p><strong>In Progress:</strong> Web Development Essentials</p>
+                        </div>
+                        <div class="course">
+                            <img src="python.jpg" alt="Course 3" class="course-image">
+                            <p><strong>Completed:</strong> Python Data Science Intro</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="achievements">
+                    <h2>Achievements & Badges 🏆</h2>
+                    <div class="badges-list">
+                        <div class="badge">
+                            <img src="java.jpg" alt="Completed Course Badge" class="badge-image">
+                            <p>JS Master</p>
+                        </div>
+                        <div class="badge">
+                            <img src="score.png" alt="Quiz Badge" class="badge-image">
+                            <p>Quiz Ace</p>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-award fa-3x" style="color: gold; margin-bottom: 5px;"></i>
+                            <p>First Enrollment</p>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-certificate fa-3x" style="color: var(--primary-color); margin-bottom: 5px;"></i>
+                            <p>5 Course Grad</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const profilePictureInput = document.getElementById('file-upload');
+            const profilePictureImg = document.getElementById('profile-picture');
+            const changePasswordBtn = document.getElementById('change-password-btn');
+            const editProfileBtn = document.getElementById('edit-profile-btn');
+            const notificationsCheckbox = document.getElementById('notifications');
+            const privacyCheckbox = document.getElementById('privacy');
+
+            // --- 1. Profile Picture Upload Simulation ---
+            profilePictureInput.addEventListener('change', function(event) {
+                if (event.target.files && event.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profilePictureImg.src = e.target.result;
+                        alert('New profile picture uploaded! (Simulated)');
+                    };
+                    reader.readAsDataURL(event.target.files[0]);
+                }
+            });
+
+            // --- 2. Settings Logic (Improved Feedback) ---
+            notificationsCheckbox.addEventListener('change', function() {
+                const status = this.checked ? 'Enabled' : 'Disabled';
+                alert(`Course Notifications are now ${status}.`);
+            });
+            
+            privacyCheckbox.addEventListener('change', function() {
+                const status = this.checked ? 'Private' : 'Public';
+                alert(`Your profile visibility is now set to ${status}.`);
+            });
+
+            // --- 3. Action Button Logic ---
+            changePasswordBtn.addEventListener('click', function() {
+                // In a real app, this would open a modal/redirect to a change password form
+                const newPassword = prompt('Enter your new password (must be 6+ chars):');
+                if (newPassword && newPassword.length >= 6) {
+                    alert('Password change initiated successfully! Please check your email for confirmation.');
+                } else if (newPassword !== null) {
+                    alert('Password change failed. Password must be at least 6 characters.');
+                }
+            });
+            
+            editProfileBtn.addEventListener('click', function() {
+                // In a real app, this would enable editing fields or open a modal
+                alert('Opening profile editor... (Simulated)');
+                // Example: make name editable
+                const currentName = document.getElementById('username').textContent;
+                const newName = prompt('Enter new Full Name:', currentName);
+                if (newName) {
+                    document.getElementById('username').textContent = newName;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Module | JavaScript for Beginners - LearnHub</title>
+    <style>
+        /* --- Design Variables (Adopted from LearnHub) --- */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --secondary-color: #6c757d; /* Grey */
+            --background-color: #f8f9fa; /* Light grey */
+            --card-background: #ffffff; /* White for cards */
+            --text-color: #343a40; /* Dark grey for main text */
+            --success-color: #28a745; /* Green */
+            --border-color: #e9ecef;
+        }
+
+        /* --- Base & Header Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-background);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Main Layout: Two Columns (Video + Content) and Sidebar --- */
+        main {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 70px); /* Fill screen height minus header */
+        }
+
+        /* Lesson Sidebar (Left Column) */
+        .lesson-sidebar {
+            flex: 0 0 300px; /* Fixed width sidebar */
+            background-color: var(--card-background);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto; /* Scrollable if many lessons */
+        }
+
+        .course-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .module-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .module-list li {
+            margin-bottom: 15px;
+        }
+
+        .lesson-link {
+            display: block;
+            padding: 10px 10px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.95em;
+            border-radius: 5px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .lesson-link:hover {
+            background-color: #f1f7ff;
+            color: var(--primary-color);
+        }
+        
+        .lesson-link.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .lesson-link span.status {
+            float: right;
+            font-weight: 400;
+            color: #ccc;
+        }
+        
+        .lesson-link.active span.status {
+            color: white;
+        }
+
+        /* Video and Content Area (Right Column) */
+        .learning-content {
+            flex: 1;
+            padding: 20px 40px;
+            overflow-y: auto;
+        }
+
+        /* Video Player Section */
+        .video-player h1 {
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            margin-bottom: 20px;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .progress-container label {
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        #progress-bar {
+            flex-grow: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #ddd;
+            border-radius: 4px;
+        }
+        
+        #progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        /* Interactive Buttons */
+        .interactive-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .interactive-buttons button, .interactive-buttons a {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #bookmark-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        #bookmark-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .quiz-button {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+        }
+
+        .quiz-button:hover {
+            background-color: #1e7e34;
+        }
+
+        /* --- Content Sections --- */
+        section {
+            background-color: var(--card-background);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        /* Transcript */
+        #transcript {
+            font-size: 1em;
+            color: var(--text-color);
+        }
+        
+        #transcript p {
+            margin-bottom: 10px;
+        }
+
+        /* Bookmarks List */
+        #bookmarks-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #bookmarks-list li {
+            background-color: #f1f7ff;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #bookmarks-list li:hover {
+            background-color: #e6f2ff;
+        }
+
+        /* Comments/Discussion */
+        .comment {
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+        }
+        
+        .comment:last-child {
+            border-bottom: none;
+        }
+        
+        .comment strong {
+            color: var(--primary-color);
+            font-size: 0.9em;
+        }
+        
+        #comment-input {
+            width: 100%;
+            height: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        
+        #submit-comment {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        #submit-comment:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 992px) {
+            main {
+                flex-direction: column;
+            }
+            
+            .lesson-sidebar {
+                flex: none;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .learning-content {
+                padding: 20px;
+            }
+            
+            .video-player h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="home-dashboard.html" class="logo">LearnHub</a>
+            <nav>
+                <a href="home-dashboard.html">Home</a>
+                <a href="profile.html">Profile</a>
+                <a href="logout.html">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <aside class="lesson-sidebar">
+            <div class="course-title">JavaScript Pro Bootcamp (6 Hours)</div>
+            
+            <ul class="module-list" id="lesson-navigation">
+                <li><a href="#" data-lesson-id="1" class="lesson-link active">1. Introduction to JavaScript <span class="status">▶️</span></a></li>
+                <li><a href="#" data-lesson-id="2" class="lesson-link">2. Variables & Data Types <span class="status">🔒</span></a></li>
+                <li><a href="#" data-lesson-id="3" class="lesson-link">3. Functions & Scope <span class="status">🔒</span></a></li>
+                <li><a href="#" data-lesson-id="4" class="lesson-link">4. Control Flow (Project) <span class="status">🔒</span></a></li>
+                <li><a href="#" data-lesson-id="5" class="lesson-link">5. Arrays and Objects <span class="status">🔒</span></a></li>
+            </ul>
+        </aside>
+
+        <div class="learning-content">
+            <div class="video-player">
+                <h1 id="lesson-title">Lesson 1: Introduction to JavaScript</h1>
+                
+                <div class="video-container">
+                    <video id="lesson-video" controls poster="https://picsum.photos/seed/javascript-lesson/800/450">
+                        <source src="Introduction to Java _ Java Programming in Tamil _ Logic First Tamil.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <div class="progress-container">
+                    <label>Video Progress:</label>
+                    <input type="range" id="progress-bar" value="0" max="100" disabled />
+                </div>
+            </div>
+            
+            <div class="interactive-buttons">
+                <button id="bookmark-button">📌 Bookmark Current Moment</button>
+                <a href="quizassignment.html" class="quiz-button">Start Quiz / Assignment ➡️</a>
+            </div>
+
+            <section class="transcript-notes">
+                <h2>📝 Transcript & Summary</h2>
+                <div id="transcript">
+                    <p><strong>Lesson 1 Summary:</strong> Welcome to the JavaScript Masterclass! In this introductory lesson, we cover the history and fundamental purpose of JavaScript in modern web development. We set up our development environment, including a code editor and browser console, and write our very first 'Hello World' script.</p>
+                    <p><strong>Key Concepts Covered:</strong> What is JS? DOM Manipulation (Brief Intro), Console Logging.</p>
+                </div>
+            </section>
+
+            <section class="bookmarks">
+                <h2>⭐ Your Bookmarks</h2>
+                <ul id="bookmarks-list">
+                    </ul>
+            </section>
+
+            <section class="comments">
+                <h2>💬 Discussion & Q&A</h2>
+                <div id="comments-section">
+                    <div class="comment">
+                        <strong>User Alpha at 02:15:</strong> I'm confused about the difference between `var` and `let`. Could someone elaborate?
+                    </div>
+                    <div class="comment">
+                        <strong>User Beta:</strong> That will be covered in Lesson 2! Stick with it.
+                    </div>
+                </div>
+                <textarea id="comment-input" placeholder="Add your question or comment here..."></textarea>
+                <button id="submit-comment">Post Comment</button>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // --- Core Elements ---
+        const video = document.getElementById('lesson-video');
+        const progressBar = document.getElementById('progress-bar');
+        const bookmarkButton = document.getElementById('bookmark-button');
+        const bookmarksList = document.getElementById('bookmarks-list');
+        const commentInput = document.getElementById('comment-input');
+        const submitCommentButton = document.getElementById('submit-comment');
+        const commentsSection = document.getElementById('comments-section');
+
+        // --- Video Player Functionality ---
+        
+        // 1. Update progress bar
+        video.addEventListener('timeupdate', function () {
+            if (!isNaN(video.duration)) {
+                const progress = (video.currentTime / video.duration) * 100;
+                progressBar.value = progress;
+            }
+        });
+        
+        // 2. Format time in MM:SS format
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secondsRemaining = Math.floor(seconds % 60);
+            const pad = (num) => String(num).padStart(2, '0');
+            return `${pad(minutes)}:${pad(secondsRemaining)}`;
+        }
+
+        // --- Bookmarks Functionality ---
+
+        bookmarkButton.addEventListener('click', function () {
+            const currentTime = video.currentTime;
+            const timeFormatted = formatTime(currentTime);
+
+            const bookmarkItem = document.createElement('li');
+            bookmarkItem.innerHTML = `[${timeFormatted}] - Important concept discussed here.`;
+            
+            // Add click listener to seek video to bookmark time
+            bookmarkItem.addEventListener('click', () => {
+                video.currentTime = currentTime;
+                video.play();
+            });
+            
+            bookmarksList.appendChild(bookmarkItem);
+            alert(`Bookmark saved at ${timeFormatted}`);
+        });
+
+        // --- Comments/Discussion Functionality ---
+
+        submitCommentButton.addEventListener('click', function () {
+            const commentText = commentInput.value.trim();
+
+            if (commentText) {
+                const commentItem = document.createElement('div');
+                commentItem.classList.add('comment');
+                // Use current time as a contextual timestamp for the comment
+                const currentTime = formatTime(video.currentTime);
+                commentItem.innerHTML = `
+                    <strong>You (${currentTime}):</strong> ${commentText}
+                    <p style="margin: 0; font-size: 0.9em;">${commentText}</p>
+                `;
+                commentsSection.appendChild(commentItem);
+                commentInput.value = ''; // Clear the input field after submitting
+            }
+        });
+    </script>
+</body>
+</html>

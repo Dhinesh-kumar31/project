@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logging Out - LearnHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        /* --- Design Variables (LearnHub Theme) --- */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --primary-dark: #0056b3;
+            --background-color: #f0f4f8; /* Light blue-gray background */
+            --card-background: #ffffff; /* White for cards */
+            --text-color: #343a40; /* Dark grey */
+            --danger-color: #dc3545; /* Red for logout/destructive action */
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        /* --- Global Reset and Body Styling --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        /* --- Logout Card Container --- */
+        .logout-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Icon and Title --- */
+        .icon-wrapper {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        p {
+            font-size: 1rem;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        /* --- Button Group --- */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        /* Logout Confirmation Button */
+        #logout-confirm {
+            background-color: var(--danger-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+        }
+
+        #logout-confirm:hover {
+            background-color: #c82333;
+            box-shadow: 0 6px 15px rgba(220, 53, 69, 0.5);
+        }
+
+        /* Cancel/Home Button */
+        #logout-cancel {
+            background-color: var(--background-color);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        #logout-cancel:hover {
+            background-color: #e9ecef;
+            color: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <div class="icon-wrapper">
+            <i class="fas fa-sign-out-alt"></i>
+        </div>
+        
+        <h1>Goodbye, Learner!</h1>
+        <p>Are you sure you want to log out of your LearnHub session? You can always log back in later.</p>
+        
+        <div class="button-group">
+            <button id="logout-confirm" class="btn">
+                <i class="fas fa-check-circle"></i> Yes, Log Me Out
+            </button>
+            <a href="Homedashboard.html" id="logout-cancel" class="btn">
+                <i class="fas fa-arrow-left"></i> No, Take Me Back
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('logout-confirm').addEventListener('click', function() {
+            // 1. Simulate API call for secure logout (in a real app)
+            console.log("User initiated logout...");
+
+            // 2. Display a brief visual feedback
+            const container = document.querySelector('.logout-container');
+            container.innerHTML = `
+                <div class="icon-wrapper" style="color: var(--success-color, #28a745);">
+                    <i class="fas fa-circle-notch fa-spin"></i>
+                </div>
+                <h1>Logging Out...</h1>
+                <p>You are being securely logged out and redirected to the login page.</p>
+            `;
+
+            // 3. Clear local session data (e.g., tokens, user info)
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('isLoggedIn');
+            
+            // 4. Redirect the user after a short delay (e.g., 2 seconds)
+            setTimeout(() => {
+                // Change 'Login.html' to your actual login page file name
+                window.location.href = "Login.html"; 
+            }, 2000); 
+        });
+    </script>
+</body>
+</html>

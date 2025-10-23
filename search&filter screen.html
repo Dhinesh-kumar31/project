@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search & Filter Courses</title>
+    <link rel="stylesheet" href="search&filter-screen.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Course Search & Filter</h1>
+
+        <!-- Search Bar -->
+        <section id="search-section">
+            <input type="text" id="search-bar" placeholder="Search for courses..." onkeyup="searchCourses()">
+        </section>
+
+        <!-- Filters Section -->
+        <section id="filters-section">
+            <div class="filter">
+                <label for="category-filter">Category</label>
+                <select id="category-filter" onchange="filterCourses()">
+                    <option value="">All</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="Design">Design</option>
+                </select>
+            </div>
+
+            <div class="filter">
+                <label for="rating-filter">Rating</label>
+                <select id="rating-filter" onchange="filterCourses()">
+                    <option value="">All</option>
+                    <option value="4">4+ Stars</option>
+                    <option value="4.5">4.5+ Stars</option>
+                    <option value="5">5 Stars</option>
+                </select>
+            </div>
+
+            <div class="filter">
+                <label for="difficulty-filter">Difficulty</label>
+                <select id="difficulty-filter" onchange="filterCourses()">
+                    <option value="">All</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+
+            <div class="filter">
+                <label for="language-filter">Language</label>
+                <select id="language-filter" onchange="filterCourses()">
+                    <option value="">All</option>
+                    <option value="English">English</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Sort Options -->
+        <section id="sort-section">
+            <label for="sort-by">Sort by</label>
+            <select id="sort-by" onchange="sortCourses()">
+                <option value="newest">Newest</option>
+                <option value="popular">Most Popular</option>
+                <option value="rating">Highest Rated</option>
+            </select>
+        </section>
+
+        <!-- Courses Display -->
+        <section id="courses-section">
+            <div id="courses-list">
+                <!-- Courses will be displayed here dynamically -->
+            </div>
+        </section>
+    </div>
+
+    <script src="search&filter-screen.js"></script>
+</body>
+</html>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color:grey;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    background-color: #4caf50;
+}
+
+#search-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#search-bar {
+    padding: 10px;
+    width: 60%;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#filters-section {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filter {
+    width: 200px;
+}
+
+#sort-section {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#sort-by {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#courses-section {
+    margin-top: 30px;
+}
+
+.course-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.course-item h3 {
+    margin: 0;
+    color: #333;
+}
+
+.course-item p {
+    margin: 5px 0;
+    color: #777;
+}
+
+.course-item .category {
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.course-item .rating {
+    color: #ff9800;
+}
+
+.course-item .language {
+    color: #2196f3;
+}
+</style>
+<script>
+    // Dummy data for courses
+const courses = [
+    { title: "Introduction to Programming", category: "Programming", rating: 4.5, difficulty: "Beginner", language: "English", popularity: 100, date: "2024-01-01" },
+    { title: "Data Science with Python", category: "Data Science", rating: 5, difficulty: "Intermediate", language: "English", popularity: 200, date: "2023-12-15" },
+    { title: "Web Design Fundamentals", category: "Design", rating: 4, difficulty: "Beginner", language: "Spanish", popularity: 50, date: "2024-02-10" },
+    { title: "Advanced React", category: "Programming", rating: 4.8, difficulty: "Advanced", language: "English", popularity: 150, date: "2023-11-20" },
+    { title: "Machine Learning Essentials", category: "Data Science", rating: 4.9, difficulty: "Intermediate", language: "French", popularity: 300, date: "2023-09-01" }
+];
+
+// Function to display courses
+function displayCourses(filteredCourses) {
+    const coursesList = document.getElementById('courses-list');
+    coursesList.innerHTML = ''; // Clear previous results
+
+    filteredCourses.forEach(course => {
+        const courseElement = document.createElement('div');
+        courseElement.classList.add('course-item');
+
+        courseElement.innerHTML = `
+            <h3>${course.title}</h3>
+            <p class="category">${course.category}</p>
+            <p class="rating">Rating: ${course.rating} stars</p>
+            <p class="difficulty">Difficulty: ${course.difficulty}</p>
+            <p class="language">Language: ${course.language}</p>
+        `;
+
+        coursesList.appendChild(courseElement);
+    });
+}
+
+// Filter and search functionality
+function searchCourses() {
+    const searchQuery = document.getElementById('search-bar').value.toLowerCase();
+    filterCourses(searchQuery);
+}
+
+function filterCourses(searchQuery = '') {
+    const category = document.getElementById('category-filter').value;
+    const rating = parseFloat(document.getElementById('rating-filter').value);
+    const difficulty = document.getElementById('difficulty-filter').value;
+    const language = document.getElementById('language-filter').value;
+
+    let filteredCourses = courses.filter(course => {
+        return (
+            (course.title.toLowerCase().includes(searchQuery) || searchQuery === '') &&
+            (category === '' || course.category === category) &&
+            (rating === 0 || course.rating >= rating) &&
+            (difficulty === '' || course.difficulty === difficulty) &&
+            (language === '' || course.language === language)
+        );
+    });
+
+    // Display filtered courses
+    displayCourses(filteredCourses);
+}
+
+// Sorting functionality
+function sortCourses() {
+    const sortBy = document.getElementById('sort-by').value;
+    let sortedCourses = [...courses];
+
+    if (sortBy === 'newest') {
+        sortedCourses.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (sortBy === 'popular') {
+        sortedCourses.sort((a, b) => b.popularity - a.popularity);
+    } else if (sortBy === 'rating') {
+        sortedCourses.sort((a, b) => b.rating - a.rating);
+    }
+
+    // Display sorted courses
+    displayCourses(sortedCourses);
+}
+
+// Initialize course display
+window.onload = function() {
+    displayCourses(courses); // Initial display of all courses
+};
+</script>

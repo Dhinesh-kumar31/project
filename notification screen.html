@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <link rel="stylesheet" href="notification-screen.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Notifications</h1>
+
+        <!-- Alerts Section -->
+        <section id="alerts">
+            <h2>Alerts</h2>
+            <div id="alerts-list">
+                <!-- Alert items will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Messages Section -->
+        <section id="messages">
+            <h2>Messages</h2>
+            <div id="messages-list">
+                <!-- Message items will be dynamically added here -->
+            </div>
+        </section>
+    </div>
+
+    <script src="notification-screen.js"></script>
+</body>
+</html>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    margin-top: 20px;
+    color: #555;
+}
+
+section {
+    margin-top: 20px;
+}
+
+#alerts-list, #messages-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.notification-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notification-item h3 {
+    margin: 0;
+    color: #333;
+}
+
+.notification-item p {
+    margin: 5px 0;
+    color: #777;
+}
+
+.notification-item button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.notification-item button:hover {
+    background-color: #45a049;
+}
+
+.notification-item.alert {
+    background-color: #fff3cd;
+    border-left: 5px solid #ffeb3b;
+}
+
+.notification-item.message {
+    background-color: #e3f2fd;
+    border-left: 5px solid #2196f3;
+}
+</style>
+<script>
+    // JavaScript for Notifications
+
+// Dummy data for alerts and messages
+const alertsData = [
+    { title: 'New Course Recommendation', description: 'We recommend the course "Advanced JavaScript".', type: 'alert' },
+    { title: 'Assignment Due', description: 'Your assignment "React Basics" is due in 2 days.', type: 'alert' },
+    { title: 'Quiz Results Available', description: 'Your quiz results for "HTML Fundamentals" are now available.', type: 'alert' }
+];
+
+const messagesData = [
+    { title: 'New Announcement', description: 'Your instructor has posted a new announcement regarding the next class schedule.', type: 'message' },
+    { title: 'Direct Message from Instructor', description: 'Your instructor has sent you feedback on your recent assignment.', type: 'message' }
+];
+
+// Function to display alerts
+function displayAlerts() {
+    const alertsList = document.getElementById('alerts-list');
+    alertsData.forEach(alert => {
+        const alertElement = document.createElement('div');
+        alertElement.classList.add('notification-item', alert.type);
+        
+        const title = document.createElement('h3');
+        title.textContent = alert.title;
+        const description = document.createElement('p');
+        description.textContent = alert.description;
+        
+        const button = document.createElement('button');
+        button.textContent = 'Mark as Read';
+        button.onclick = () => {
+            alertElement.style.opacity = 0.5; // Mark as read by reducing opacity
+            button.disabled = true;
+        };
+        
+        alertElement.appendChild(title);
+        alertElement.appendChild(description);
+        alertElement.appendChild(button);
+        
+        alertsList.appendChild(alertElement);
+    });
+}
+
+// Function to display messages
+function displayMessages() {
+    const messagesList = document.getElementById('messages-list');
+    messagesData.forEach(message => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('notification-item', message.type);
+        
+        const title = document.createElement('h3');
+        title.textContent = message.title;
+        const description = document.createElement('p');
+        description.textContent = message.description;
+        
+        const button = document.createElement('button');
+        button.textContent = 'Mark as Read';
+        button.onclick = () => {
+            messageElement.style.opacity = 0.5; // Mark as read by reducing opacity
+            button.disabled = true;
+        };
+        
+        messageElement.appendChild(title);
+        messageElement.appendChild(description);
+        messageElement.appendChild(button);
+        
+        messagesList.appendChild(messageElement);
+    });
+}
+
+// Display alerts and messages on page load
+window.onload = function() {
+    displayAlerts();
+    displayMessages();
+};
+</script>

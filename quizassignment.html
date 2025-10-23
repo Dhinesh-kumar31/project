@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment | JavaScript Basics - LearnHub</title>
+    <style>
+        /* --- Design Variables (LearnHub Theme) --- */
+        :root {
+            --primary-color: #007bff; /* Blue */
+            --secondary-color: #6c757d; /* Grey */
+            --background-color: #f8f9fa; /* Light grey */
+            --card-background: #ffffff; /* White for cards */
+            --text-color: #343a40; /* Dark grey for main text */
+            --success-color: #28a745; /* Green for success */
+            --danger-color: #dc3545; /* Red for errors */
+            --warning-color: #ffc107; /* Yellow for timer */
+            --border-color: #e9ecef;
+        }
+
+        /* --- Base & Header Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--card-background);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+        }
+
+        /* --- Main Content Layout --- */
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .quiz-assignment-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--card-background);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        /* --- Timer Section --- */
+        .timer {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: var(--warning-color);
+            color: var(--text-color);
+        }
+
+        #timer.critical {
+            background-color: var(--danger-color);
+            color: white;
+            animation: pulse 1s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            from { opacity: 1; }
+            to { opacity: 0.8; }
+        }
+
+        /* --- Quiz Questions --- */
+        .question {
+            background-color: var(--background-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .question h3 {
+            margin-top: 0;
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .options label:hover {
+            background-color: #e2f0ff;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--primary-color);
+        }
+        
+        /* Assignment Upload */
+        .assignment-upload {
+            margin-top: 40px;
+            padding: 20px;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .assignment-upload h3 {
+            color: var(--success-color);
+            margin-bottom: 15px;
+        }
+        
+        .assignment-upload input[type="file"] {
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            width: 80%;
+            margin: 10px 0;
+        }
+
+
+        /* --- Submission & Navigation --- */
+        #submit-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-top: 30px;
+            transition: background-color 0.2s;
+        }
+
+        #submit-button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+        
+        #submit-button:disabled {
+            background-color: var(--secondary-color);
+            cursor: not-allowed;
+        }
+        
+        .next-page-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .next-page-link a {
+            display: inline-block;
+            background-color: var(--success-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        
+        .next-page-link a:hover {
+            background-color: #1e7e34;
+        }
+
+
+        /* --- Score Feedback --- */
+        .score-feedback {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        #feedback {
+            background-color: #e9f7ef; /* Light green for success */
+            padding: 25px;
+            border-radius: 10px;
+            border: 2px solid var(--success-color);
+        }
+        
+        #feedback h3 {
+            color: var(--success-color);
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+        
+        #score-message {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">LearnHub</div>
+            <nav>
+                <a href="Homedashboard.html">Home</a>
+                <a href="profile.html">Profile</a>
+                <a href="Logout.html">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="quiz-assignment-container">
+            <h1>Assessment: JavaScript Basics 📝</h1>
+            
+            <section class="timer">
+                <label>Time Remaining:</label>
+                <span id="timer">30:00</span>
+            </section>
+
+            <section class="quiz-questions">
+                <form id="quiz-form">
+                    <div class="question">
+                        <h3>1. What is the correct HTML element for referring to an external script called "app.js"?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q1" value="a" required>&lt;script href="app.js"&gt;</label>
+                            <label><input type="radio" name="q1" value="b">&lt;script src="app.js"&gt;</label>
+                            <label><input type="radio" name="q1" value="c">&lt;script ref="app.js"&gt;</label>
+                            <label><input type="radio" name="q1" value="d">&lt;script file="app.js"&gt;</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h3>2. Is JavaScript a dynamically typed language?</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q2" value="true" required> True</label>
+                            <label><input type="radio" name="q2" value="false"> False</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <h3>3. What does this JavaScript code output: console.log(typeof 10);</h3>
+                        <div class="options">
+                            <label><input type="radio" name="q3" value="a" required> "number"</label>
+                            <label><input type="radio" name="q3" value="b"> "string"</label>
+                            <label><input type="radio" name="q3" value="c"> "undefined"</label>
+                            <label><input type="radio" name="q3" value="d"> "object"</label>
+                        </div>
+                    </div>
+
+                    <div class="assignment-upload">
+                        <h3>Assignment: Upload Your Code Solution (.zip or .js)</h3>
+                        <input type="file" id="assignment-upload" accept=".zip,.js,.html,.css" />
+                        <small style="color: var(--secondary-color);">*Quiz score is immediate. Assignment grading will follow later.</small>
+                    </div>
+
+                    
+                    <button type="button" id="submit-button">Submit Assessment</button>
+                    
+                </form>
+            </section>
+
+            <section class="score-feedback">
+                <div id="feedback" style="display:none;">
+                    <h3>Quiz Submitted!</h3>
+                    <p id="score-message"></p>
+                    <p style="font-size: 0.9em; color: var(--secondary-color);">Check your profile for full assignment grading later.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <div class="next-page-link" id="next-page-container" style="display: none;">
+        <a href="certificatescreen.html">Continue to Certificate Screen 🏆</a>
+    </div>
+
+    <script>
+        // --- Core Elements ---
+        let timeRemaining = 30 * 60; // 30 minutes in seconds
+        const timerElement = document.getElementById('timer');
+        const submitButton = document.getElementById('submit-button');
+        const feedback = document.getElementById('feedback');
+        const scoreMessage = document.getElementById('score-message');
+        const nextPageContainer = document.getElementById('next-page-container');
+
+        // --- Timer Logic ---
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const pad = (num) => String(num).padStart(2, '0');
+            return `${pad(minutes)}:${pad(seconds)}`;
+        }
+
+        function updateTimer() {
+            timerElement.textContent = formatTime(timeRemaining);
+            
+            // Critical time alert
+            if (timeRemaining <= 60) {
+                timerElement.classList.add('critical');
+            } else if (timeRemaining > 60) {
+                timerElement.classList.remove('critical');
+            }
+
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                submitQuiz(true); // Auto-submit when time is up
+                alert('Time is up! Your quiz has been automatically submitted.');
+            } else {
+                timeRemaining--;
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+        updateTimer(); // Initial call to display 30:00
+
+        // --- Quiz and Scoring Logic ---
+        const correctAnswers = {
+            'q1': 'b',
+            'q2': 'true',
+            'q3': 'a'
+        };
+
+        submitButton.addEventListener('click', () => submitQuiz(false));
+
+        function submitQuiz(isTimeUp) {
+            clearInterval(timerInterval); // Stop the timer
+
+            const form = document.getElementById('quiz-form');
+            const answers = new FormData(form);
+            let score = 0;
+            const totalQuestions = Object.keys(correctAnswers).length;
+            
+            // Check answers and calculate score
+            for (const q in correctAnswers) {
+                if (answers.get(q) === correctAnswers[q]) {
+                    score++;
+                }
+            }
+
+            // --- UI Updates and Feedback ---
+            
+            // 1. Show score feedback
+            const percentage = Math.round((score / totalQuestions) * 100);
+            feedback.style.display = 'block';
+            scoreMessage.textContent = `You scored ${score} out of ${totalQuestions} (${percentage}%) on the quiz!`;
+            
+            // 2. Handle assignment upload notification
+            const assignmentFile = document.getElementById('assignment-upload').files[0];
+            if (assignmentFile) {
+                 alert(`Assignment file "${assignmentFile.name}" has been uploaded.`);
+            }
+
+            // 3. Disable quiz elements and show next button
+            submitButton.disabled = true;
+            submitButton.textContent = "Submitted";
+            nextPageContainer.style.display = 'block';
+
+            // Optional: You can add functionality here to send results to a server.
+        }
+    </script>
+</body>
+</html>

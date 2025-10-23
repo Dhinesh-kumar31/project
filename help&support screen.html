@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support</title>
+    <link rel="stylesheet" href="help&support-screen.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Help & Support</h1>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>How do I reset my password?</h3>
+                <p>To reset your password, go to the "Account Settings" page and click on "Reset Password".</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do I enroll in a course?</h3>
+                <p>To enroll in a course, browse the course catalog, select a course, and click "Enroll".</p>
+            </div>
+            <div class="faq-item">
+                <h3>What is the refund policy?</h3>
+                <p>We offer a 30-day money-back guarantee for all courses. For more information, visit our refund policy page.</p>
+            </div>
+        </section>
+
+        <!-- Support Chat Section -->
+        <section id="support-chat">
+            <h2>Support Chat</h2>
+            <div class="chat-box">
+                <div id="chat-log" class="chat-log">
+                    <div class="chat-message bot-message">Hello! How can we assist you today?</div>
+                </div>
+                <input type="text" id="chat-input" placeholder="Type your message..." />
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </section>
+
+        <!-- Feedback Form Section -->
+        <section id="feedback-form">
+            <h2>Feedback Form</h2>
+            <form id="feedback-form-element">
+                <label for="feedback">Your Feedback:</label>
+                <textarea id="feedback" rows="4" placeholder="Please provide your feedback here..."></textarea>
+
+                <label for="issue">Is this related to an issue?</label>
+                <select id="issue">
+                    <option value="bug">Bug</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </section>
+
+        <!-- Community Forum Section -->
+        <section id="community-forum">
+            <h2>Community Forum</h2>
+            <p>Join the conversation on our <a href="https://forum.example.com" target="_blank">Community Forum</a> to discuss with other students and instructors.</p>
+        </section>
+    </div>
+
+    <script src="help&support-screen.js"></script>
+</body>
+</html>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    margin-top: 30px;
+    color: #555;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+.faq-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.faq-item h3 {
+    margin: 0;
+    color: #333;
+}
+
+.faq-item p {
+    margin: 10px 0 0;
+    color: #666;
+}
+
+.chat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+.chat-log {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: scroll;
+    padding-bottom: 10px;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.bot-message {
+    background-color: #d1f7d6;
+    color: #333;
+}
+
+.user-message {
+    background-color: #e0e0e0;
+    color: #333;
+    align-self: flex-end;
+}
+
+#chat-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#feedback-form-element {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#feedback-form-element textarea, #feedback-form-element select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#community-forum a {
+    color: #2196f3;
+    text-decoration: none;
+}
+
+#community-forum a:hover {
+    text-decoration: underline;
+}
+</style>
+<script>
+    // Handle support chat messages
+function sendMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const chatLog = document.getElementById('chat-log');
+
+    const userMessage = chatInput.value.trim();
+
+    if (userMessage) {
+        // Display user message in chat
+        const userMessageElement = document.createElement('div');
+        userMessageElement.classList.add('chat-message', 'user-message');
+        userMessageElement.textContent = userMessage;
+        chatLog.appendChild(userMessageElement);
+
+        // Display bot response (this can be enhanced for actual live chat)
+        const botMessageElement = document.createElement('div');
+        botMessageElement.classList.add('chat-message', 'bot-message');
+        botMessageElement.textContent = "Thank you for your message. We'll get back to you shortly.";
+        chatLog.appendChild(botMessageElement);
+
+        // Clear input field
+        chatInput.value = "";
+
+        // Scroll to the latest message
+        chatLog.scrollTop = chatLog.scrollHeight;
+    }
+}
+
+// Handle feedback form submission
+document.getElementById('feedback-form-element').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const feedback = document.getElementById('feedback').value;
+    const issueType = document.getElementById('issue').value;
+
+    // Normally, you would send the feedback to a backend here
+    // For now, just alert the feedback submission
+    
+});
+</script>

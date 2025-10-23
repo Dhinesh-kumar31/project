@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Account Settings</h1>
+
+        <!-- Account Settings Section -->
+        <section id="account-settings">
+            <h2>Account Settings</h2>
+            <form id="account-form">
+                <label for="password">New Password:</label>
+                <input type="password" id="password" placeholder="Enter new password">
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Enter new email">
+                
+                <label for="two-factor">Enable Two-Factor Authentication:</label>
+                <input type="checkbox" id="two-factor">
+                
+                <button type="submit">Save Changes</button>
+            </form>
+        </section>
+
+        <!-- Privacy Controls Section -->
+        <section id="privacy-controls">
+            <h2>Privacy Controls</h2>
+            <form id="privacy-form">
+                <label for="profile-visibility">Profile Visibility:</label>
+                <select id="profile-visibility">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="friends">Friends</option>
+                </select>
+                
+                <label for="learning-history">Learning History Visibility:</label>
+                <select id="learning-history">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="friends">Friends</option>
+                </select>
+                
+                <button type="submit">Save Privacy Settings</button>
+            </form>
+        </section>
+
+        <!-- Notification Preferences Section -->
+        <section id="notification-preferences">
+            <h2>Notification Preferences</h2>
+            <form id="notifications-form">
+                <label for="new-course-alerts">New Course Alerts:</label>
+                <input type="checkbox" id="new-course-alerts" checked>
+                
+                <label for="assignment-due">Assignment Due Alerts:</label>
+                <input type="checkbox" id="assignment-due" checked>
+                
+                <label for="quiz-results">Quiz Results Alerts:</label>
+                <input type="checkbox" id="quiz-results" checked>
+                
+                <button type="submit">Save Notifications Preferences</button>
+            </form>
+        </section>
+
+        <!-- Language & Theme Section -->
+        <section id="language-theme">
+            <h2>Language & Theme</h2>
+            <form id="language-theme-form">
+                <label for="language">Language:</label>
+                <select id="language">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                </select>
+
+                <label for="theme">Theme:</label>
+                <select id="theme" onchange="toggleTheme()">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+
+                <button type="submit">Save Language & Theme</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+h2 {
+    margin-top: 30px;
+    color: #555;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form label {
+    font-size: 16px;
+    color: #333;
+}
+
+form input, form select {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+#account-settings, #privacy-controls, #notification-preferences, #language-theme {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode {
+    background-color: #333;
+    color: white;
+}
+
+.dark-mode input, .dark-mode select, .dark-mode button {
+    background-color: #555;
+    color: white;
+    border: 1px solid #888;
+}
+</style>
+<script>
+    // JavaScript for settings functionality
+
+// Handle account form submission (Password, Email, Two-Factor)
+document.getElementById('account-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Account settings updated successfully!');
+});
+
+// Handle privacy form submission (Profile and Learning History visibility)
+document.getElementById('privacy-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Privacy settings updated successfully!');
+});
+
+// Handle notification preferences form submission
+document.getElementById('notifications-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Notification preferences updated successfully!');
+});
+
+// Handle language and theme form submission
+document.getElementById('language-theme-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const language = document.getElementById('language').value;
+    const theme = document.getElementById('theme').value;
+    
+});
+
+// Toggle theme between light and dark
+function toggleTheme() {
+    const theme = document.getElementById('theme').value;
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
+}
+
+// Toggle two-factor authentication setting
+document.getElementById('two-factor').addEventListener('change', function() {
+    if (this.checked) {
+        alert('Two-factor authentication enabled!');
+    } else {
+        alert('Two-factor authentication disabled!');
+    }
+});
+
+// Initialize theme on page load
+window.onload = function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.getElementById('theme').value = 'dark';
+        document.body.classList.add('dark-mode');
+    }
+};
+</script>

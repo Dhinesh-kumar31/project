@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | LearnHub</title>
+    <style>
+        /* Base Styling */
+        :root {
+            --primary-color: #007bff; /* Blue for primary actions */
+            --secondary-color: #6c757d; /* Grey for secondary elements */
+            --background-color: #f8f9fa; /* Light grey for body */
+            --card-background: #ffffff; /* White for cards */
+            --text-color: #343a40; /* Dark grey for main text */
+            --success-color: #28a745; /* Green for enroll/success */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: var(--card-background);
+            border-bottom: 1px solid #e9ecef;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            flex-grow: 1;
+            margin: 0 40px;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            font-size: 1em;
+        }
+
+        /* Main Layout */
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: var(--card-background);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            font-size: 1.6em;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        /* Course List (Grid Layout) */
+        .course-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background-color: var(--card-background);
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-content h3 {
+            font-size: 1.25em;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .card-content p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+
+        .enroll-button {
+            display: block;
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background-color 0.2s;
+        }
+
+        .enroll-button:hover {
+            background-color: #1e7e34;
+        }
+        
+        /* Notifications */
+        .notification-list {
+            list-style-type: none;
+            padding: 0;
+            display: grid;
+            gap: 10px;
+        }
+
+        .notification-list li {
+            background-color: #e6f2ff; /* Light primary background */
+            padding: 15px;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 5px;
+            font-size: 0.95em;
+            color: var(--text-color);
+        }
+
+        /* Categories (Flexbox Layout) */
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .category-item {
+            background-color: #f1f1f1;
+            color: var(--text-color);
+            padding: 12px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background-color 0.2s, color 0.2s;
+            border: 1px solid #dee2e6;
+        }
+
+        .category-item:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .search-bar {
+                order: 3; /* Move search below logo and nav */
+                margin: 10px 0;
+                max-width: 100%;
+            }
+
+            nav {
+                order: 2;
+                margin-bottom: 10px;
+            }
+
+            nav a {
+                margin: 0 10px;
+            }
+
+            main {
+                padding: 0 10px;
+            }
+
+            .course-list {
+                grid-template-columns: 1fr; /* Stack courses on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">LearnHub</a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for courses, instructors, or topics...">
+            </div>
+            <nav>
+                <a href="profile.html">Profile</a>
+                <a href="login.html">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="recommendations">
+            <h2>🔥 Recommended Courses</h2>
+            <div class="course-list" id="recommendations">
+                </div>
+        </section>
+
+        <section class="trending-courses">
+            <h2>📈 Trending & Popular Courses</h2>
+            <div class="course-list" id="trending-courses">
+                </div>
+        </section>
+
+        <section class="notifications">
+            <h2>🔔 Notifications</h2>
+            <ul class="notification-list" id="notifications">
+                </ul>
+        </section>
+
+        <section class="categories">
+            <h2>📚 Browse Categories</h2>
+            <div class="category-list" id="categories">
+                </div>
+        </section>
+    </main>
+
+    <script>
+        // Sample Data with new structure
+        const recommendedCourses = [
+            { title: 'Modern JavaScript from Zero to Hero', link: 'Coursedetails.html?course=js', instructor: 'J. Smith', rating: 4.7, category: 'Web Development' },
+            { title: 'Complete Python Pro Bootcamp', link: 'Coursedetails.html?course=py', instructor: 'A. Sharma', rating: 4.9, category: 'Programming' },
+            { title: 'The Ultimate Graphic Design Masterclass', link: 'Coursedetails.html?course=gd', instructor: 'M. Chen', rating: 4.5, category: 'Design' }
+        ];
+
+        const trendingCourses = [
+            { title: 'Introduction to Machine Learning', link: 'Coursedetails.html?course=ml', instructor: 'Dr. E. Khan', rating: 4.8, category: 'AI' },
+            { title: 'Full-Stack Web Development Bootcamp', link: 'Coursedetails.html?course=fs', instructor: 'L. Gomez', rating: 4.6, category: 'Web Development' },
+            { title: 'Data Science and Visualization with R', link: 'Coursedetails.html?course=ds', instructor: 'R. Patel', rating: 4.7, category: 'Data Science' }
+        ];
+
+        const notifications = [
+            'New course **"Cloud Computing Fundamentals"** is now live!',
+            'Your progress in **Advanced Python** is at 65%. Keep going!',
+            'Reminder: **Live Q&A Session** for Data Structures is tomorrow at 2 PM.'
+        ];
+
+        const categories = [
+            'Web Development', 'Programming', 'Design', 'Data Science', 'AI & Machine Learning', 'Business', 'Marketing', 'Finance'
+        ];
+
+        // Function to render course lists
+        function renderCourses(courses, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            courses.forEach(course => {
+                // Generate a random image based on the category for visual appeal
+                const imageUrl = `https://picsum.photos/seed/${course.category.replace(/\s/g, '-')}/300/180`;
+
+                const courseCard = document.createElement('div');
+                courseCard.classList.add('course-card');
+                courseCard.innerHTML = `
+                    <img src="${imageUrl}" alt="${course.title} thumbnail">
+                    <div class="card-content">
+                        <h3>${course.title}</h3>
+                        <p>Instructor: ${course.instructor}</p>
+                        <p>Rating: ⭐️ ${course.rating} / 5.0</p>
+                        <a href="${course.link}" class="enroll-button">View Details & Enroll</a>
+                    </div>
+                `;
+                container.appendChild(courseCard);
+            });
+        }
+
+        // Function to render notifications
+        function renderNotifications() {
+            const container = document.getElementById('notifications');
+            container.innerHTML = '';
+
+            notifications.forEach(notification => {
+                const notificationItem = document.createElement('li');
+                // Use a simple replace for bolding keywords in the notification
+                let formattedText = notification.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                notificationItem.innerHTML = formattedText;
+                container.appendChild(notificationItem);
+            });
+        }
+
+        // Function to render categories
+        function renderCategories() {
+            const container = document.getElementById('categories');
+            container.innerHTML = '';
+
+            categories.forEach(category => {
+                const categoryItem = document.createElement('div');
+                categoryItem.classList.add('category-item');
+                categoryItem.textContent = category;
+                container.appendChild(categoryItem);
+            });
+        }
+
+        // Initial rendering of content
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCourses(recommendedCourses, 'recommendations');
+            renderCourses(trendingCourses, 'trending-courses');
+            renderNotifications();
+            renderCategories();
+        });
+    </script>
+</body>
+</html>
